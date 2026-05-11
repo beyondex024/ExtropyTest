@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# Strips Cursor-injected co-author trailers before the commit is finalized.
+msg_file=$1
+[ -n "$msg_file" ] && [ -f "$msg_file" ] || exit 0
+node "$(dirname "$0")/strip-cursor-coauthor.mjs" "$msg_file" || true

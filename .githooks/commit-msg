@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# Final pass: Cursor may append co-author after prepare-commit-msg.
+msg_file=$1
+[ -n "$msg_file" ] && [ -f "$msg_file" ] || exit 0
+node "$(dirname "$0")/strip-cursor-coauthor.mjs" "$msg_file" || true

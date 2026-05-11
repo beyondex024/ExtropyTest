@@ -1,0 +1,11 @@
+node_modules
+dist
+.build
+.serverless
+.esbuild
+.env
+.env.local
+*.log
+coverage
+.DS_Store
+*.tsbuildinfo

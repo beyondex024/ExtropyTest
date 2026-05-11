@@ -1,0 +1,27 @@
+{
+  "name": "extropy-expense-tracker",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm -r run build",
+    "dev": "concurrently -n web,api -c blue,magenta \"pnpm --filter @extropy/web dev\" \"pnpm --filter @extropy/api dev\"",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "test": "pnpm -r run test",
+    "typecheck": "node ./node_modules/typescript/lib/tsc.js --noEmit -p packages/shared/tsconfig.json && pnpm --filter @extropy/shared run build && node ./node_modules/typescript/lib/tsc.js --noEmit -p apps/api/tsconfig.json && node ./node_modules/typescript/lib/tsc.js --noEmit -p apps/web/tsconfig.json"
+  },
+  "devDependencies": {
+    "zod": "^3.23.8",
+    "@eslint/js": "^9.15.0",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.15.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "globals": "^15.12.0",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.15.0"
+  }
+}
