@@ -1,0 +1,62 @@
+service: extropy-expense-api
+
+frameworkVersion: "3"
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  httpApi:
+    cors:
+      allowedOrigins:
+        - ${env:CORS_ORIGIN, '*'}
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowedMethods:
+        - GET
+        - POST
+        - PATCH
+        - DELETE
+        - OPTIONS
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI, ''}
+    JWT_SECRET: ${env:JWT_SECRET, ''}
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY, ''}
+    CORS_ORIGIN: ${env:CORS_ORIGIN, '*'}
+    LOG_LEVEL: ${env:LOG_LEVEL, 'info'}
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    target: node20
+    platform: node
+    format: cjs
+  serverless-offline:
+    host: 0.0.0.0
+    httpPort: 3000
+
+package:
+  individually: false
+
+functions:
+  api:
+    handler: src/lambda.handler
+    timeout: 29
+    memorySize: 512
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+      - httpApi:
+          path: /
+          method: ANY
